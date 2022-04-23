@@ -1,7 +1,7 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
-const loadReadme = require('./utils/generateMarkdown');
+const pullUpReadme = require('./utils/generateMarkdown');
 const util = require('util');
 const { resolve } = require('path');
 const writeFileAsync = util.promisify(fs.writeFile);
@@ -11,7 +11,7 @@ function questionReadme() {
     return inquirer.prompt([
         {
             type: 'input',
-            name: 'project',
+            name: 'projectname',
             message: 'Name your project: ',
             validate: projectInput => {
                 if (projectInput) {
@@ -24,8 +24,8 @@ function questionReadme() {
         },
         {
             type: 'input',
-            name: 'name',
-            message: 'What is your Github username?',
+            name: 'username',
+            message: 'Github Username: ',
             validate: nameInput => {
                 if (nameInput) {
                     return true;
@@ -37,13 +37,13 @@ function questionReadme() {
         },
         {
             type: 'input',
-            name: 'email',
-            message: 'What is your email address?',
+            name: 'useremail',
+            message: 'Email address: ',
             validate: emailInput => {
                 if (emailInput) {
                     return true;
                 } else {
-                    console.log('Pleas enter a email address!');
+                    console.log('Please enter a email address!');
                     return false;
                 }
             }
@@ -64,13 +64,13 @@ function questionReadme() {
         {
             type: 'checkbox',
             name: 'badges',
-            message: 'What kind of license should your project have?',
+            message: 'Select Licenses: ',
             choices: ['MIT','GNU','Apache','None']
         },
         {
             type: 'input',
             name: 'repo',
-            message: 'What does the user need to know about using the repo?',
+            message: 'Describe this repo:',
             validate: repoInput => {
                 if (repoInput) {
                     return true;
@@ -82,8 +82,8 @@ function questionReadme() {
         },
         {
             type: 'input',
-            name: 'contributingrepo',
-            message: 'What does the user need to know about contributing to the repo?',
+            name: 'contribution',
+            message: 'Details about contributing to this repo: ',
             validate: runInput => {
                 if (runInput) {
                     return true;
@@ -97,10 +97,10 @@ function questionReadme() {
 }
 
 
-const makeFile = (generatePage, userInput) => {
+const makeFile = (generatePage, pullUpReadme) => {
 
     return new Promise((resolve, reject) => {
-        fs.writeFile(`../dist/${userInput.project}.md`, generatePage, err => {
+        fs.writeFile(`../dist/${pullUpReadme.project}.md`, generatePage, err => {
             if (err) {
                 reject(err);
                 return;
@@ -116,10 +116,10 @@ const makeFile = (generatePage, userInput) => {
 
 async function init() {
     try {
-        const userInput = await questionReadme();
-        const generatePage = loadReadme(userInput);
+        const questionInput = await questionReadme();
+        const generatePage = pullUpReadme(questionInput);
 
-        return makeFile(generatePage, userInput);
+        return makeFile(generatePage, questionInput);
     } catch (err) {
         console.log(err);
     }

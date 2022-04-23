@@ -1,18 +1,18 @@
 const fs = require('fs');
 
 // Badges Generation 
-function createBadge(license) {
+function badgeCreation(license) {
   if (license === 'None') {
     return ``
   };
   if (license === 'MIT') {
-    return `<img src="https://img.shields.io/github/license/Dapr1nc3/run-buddy?color=Green&label=MIT">`
+    return `<img src="https://img.shields.io/github/license/luistorano/run-buddy?color=Green&label=MIT">`
   };
   if (license === 'GNU') {
-    return `<img src="https://img.shields.io/github/license/Dapr1nc3/run-buddy?color=Green&label=GNU">`
+    return `<img src="https://img.shields.io/github/license/luistorano/run-buddy?color=Green&label=GNU">`
   };
   if (license === 'Apache') {
-    return `<img src="https://img.shields.io/github/license/Dapr1nc3/run-buddy?color=Green&label=Apache">`
+    return `<img src="https://img.shields.io/github/license/luistorano/run-buddy?color=Green&label=Apache">`
   };
 };
 
@@ -33,7 +33,7 @@ function createSection(license) {
   if (license) {
     return `## License
     
-    ${createBadge(license.badges[0])}
+    ${badgeCreation(license.badges[0])}
     ${createLink(license.badges[0])} 
     
     
@@ -47,12 +47,12 @@ function createSection(license) {
 
 
 // Markdown Function
-function loadReadme(userInput) {
+function pullUpReadme(questionInput) {
   return `
-  ${createBadge(userInput.badges[0], userInput.name, userInput.project)}
-  # ${userInput.project}
+  ${badgeCreation(questionInput.badges[0], questionInput.username, questionInput.projectname)}
+  # ${questionInput.projectname}
   ## Description
-  ${userInput.description}
+  ${questionInput.description}
   ## Table of Contents
   - [Description](#description)
   - [Installation](#installation)
@@ -64,18 +64,18 @@ function loadReadme(userInput) {
   - [Questions](#questions)
   
   ## Installation
-  ${userInput.install}
+  ${questionInput.install}
   ## Usage
   ## How To Video Below
   
   
   
   ## Questions
-  Email ${userInput.name} to reach out if you have any questions.
-  **Email**: ${userInput.email}
-  **Github**: [${userInput.name}](https://github.com/${userInput.name})`;
+  Email ${questionInput.useremail} to reach out if you have any questions.
+  **Email**: ${questionInput.useremail}
+  **Github**: [${questionInput.username}](https://github.com/${questionInput.username})`;
 }
 
 
 
-module.exports = loadReadme;
+module.exports = pullUpReadme;
